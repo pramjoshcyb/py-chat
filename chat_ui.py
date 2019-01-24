@@ -1,52 +1,61 @@
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QApplication, QLabel, QWidget, QVBoxLayout, QPushButton
+from PyQt5.QtGui import QPalette
 
-class ChatUI(): # creation of a class 
-    """This class encapsulates out application""" 
-
+class ChatUI():
+    """This class encapsulates out application"""
+    # constructor
     def __init__(self):
 
-        # counter for number of clicks to be stored 
+        # counter for number of clicks
         self.button_clicks = 0
 
-        # Create a GUI Application
+        # Create a GUI application
         app = QApplication([])
 
+        # Style app
+        app.setStyle('Fusion')
+        palette = QPalette()
+        palette.setColor(QPalette.ButtonText, Qt.red)
+        app.setPalette(palette)
+
         # Create our root window
-        window = QWidget() # imported
+        window = QWidget()
 
         # Create a vertical layout and embed it in the root window
-        layout = QVBoxLayout() # is a class which is designed for lining  up widgets vertically
+        layout = QVBoxLayout()
         window.setLayout(layout)
 
         # Create a text display
         label = QLabel('Hello, Cyber')
 
-        # Make it visible
-        # label.show()
-
         # Create a button
-        button = QPushButton('Click Me!') # button was defined here
+        button = QPushButton('Click me!')
 
-        def on_button_clicked(): # will count the button clicks
-            global button_clicks # need a global variable so it is defined 
-            button_clicks += 1 # increments clicks by 1
+        
+        button.clicked.connect(self.button_clicked)
 
-            label.setText("Button was clicked " + str(button_clicks) + " times")
-
-        button.clicked.connect(on_button_clicked) # passed in function name
-    
-    
-
-
-        # Add Widgets to the layout
+        # Add widgets to the layout
         layout.addWidget(label)
         layout.addWidget(button)
 
-        window.show() # to display all the things that are inside the window including labels and buttons
+        window.show()
 
-    
-        # Enter the application's main loop 
+        self.app = app
+        self.window = window
+        self.layout = layout
+        self.label = label
+        self.button = button
+
+    def run(self):
+        # Enter the application's main loop
         # This method call doesn't end until the main window is closed
-        app.exec_() # runs the application
+        self.app.exec_()
 
-        print("Application was closed") # Useful to display when the app is closed 
+        print("Application was closed")
+
+    def button_clicked(self):
+        self.button_clicks += 1
+
+        # alternative: label.setText(f"Button was clicked {button_clicks} times")
+        self.label.setText("Button was clicked " + str(self.button_clicks) + " times")
