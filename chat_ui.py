@@ -56,6 +56,7 @@ class ChatUI():
 
     def button_clicked(self):
         self.button_clicks += 1
+        
 
         # alternative: label.setText(f"Button was clicked {button_clicks} times")
         self.label.setText("Button was clicked " + str(self.button_clicks) + " times")
